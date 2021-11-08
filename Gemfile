@@ -27,6 +27,7 @@ gem 'jbuilder', '~> 2.7'
 
 # [MS] Additions
 gem 'typhoeus'
+gem 'devise'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
