@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_08_105252) do
+ActiveRecord::Schema.define(version: 2022_04_24_054325) do
+
+  create_table "members", force: :cascade do |t|
+    t.integer "mindbody_id"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "gender"
+    t.date "birth_date"
+    t.datetime "profile_created_date"
+    t.datetime "profile_last_modified_date"
+    t.string "profile_hash"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "first_name"

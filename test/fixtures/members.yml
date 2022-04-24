@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  mindbody_id: 1
+  first_name: MyString
+  last_name: MyString
+  email: MyString
+  gender: MyString
+  birth_date: 2022-04-24
+  profile_created_date: 2022-04-24 15:43:25
+  profile_last_modified_date: 2022-04-24 15:43:25
+  profile_hash: MyString
+
+two:
+  mindbody_id: 1
+  first_name: MyString
+  last_name: MyString
+  email: MyString
+  gender: MyString
+  birth_date: 2022-04-24
+  profile_created_date: 2022-04-24 15:43:25
+  profile_last_modified_date: 2022-04-24 15:43:25
+  profile_hash: MyString
