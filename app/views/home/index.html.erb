@@ -1,3 +1,14 @@
 <p>Welcome! Please signin </p>
 
-<%= current_user.email %>
+<%= current_user.email %><br>
+<%= current_user.id %><br>
+
+<h2>Token</h2>
+<% if valide_user_token? %>
+  Token is set<br>
+  Token last used: <%= current_user.token_last_used_at %><br>
+<% else %>
+  <%= link_to "Add your auth token", new_token_path %><br><br>
+<% end %>
+
+<%= button_to "logout", destroy_user_session_path, method: :delete %>
