@@ -25,7 +25,7 @@ class GetTokenController < ApplicationController
   end
 
   def get_auth_token(email, password, site_id)
-    api_key = ''
+    api_key = Rails.application.credentials.mindbody[:api_key]
     staff_username = email
     staff_password = password
 
