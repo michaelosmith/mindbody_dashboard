@@ -1,0 +1,13 @@
+<div>
+  <h1>Hello World!</h1>
+
+  <%= form_with url: token_index_path do |form| %>
+    <%= form.label :email, "Email" %>
+    <%= form.email_field :email %>
+    <%= form.label :password, "Password" %>
+    <%= form.password_field :password %>
+    <%= form.label :site_id, "Site ID" %>
+    <%= form.text_field :site_id %>
+    <%= form.submit "Submit" %>
+  <% end %>
+</div>
