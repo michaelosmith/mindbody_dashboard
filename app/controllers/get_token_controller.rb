@@ -28,24 +28,18 @@ class GetTokenController < ApplicationController
     api_key = Rails.application.credentials.mindbody[:api_key]
     staff_username = email
     staff_password = password
-
-    require 'uri'
-    require 'net/http'
-
-    url = URI("https://api.mindbodyonline.com/public/v6/usertoken/issue")
-
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-    request = Net::HTTP::Post.new(url)
-    request["Content-Type"] = 'application/json'
-    request["Api-Key"] = api_key
-    request["SiteId"] =  site_id
-    request.body = "{\r\n\t\"Username\": \"#{staff_username}\",\r\n\t\"Password\": \"#{staff_password}\"\r\n}"
-
-    response = http.request(request)
-    token_json = parse(response.read_body)
-    token_json[:AccessToken]
+    headers  = { 
+      'Content-Type': 'application/json',
+      'Api-Key': api_key,
+      'SiteId': site_id
+    }
+    
+    request = Typhoeus::Request.new(
+      "https://api.mindbodyonline.com/public/v6/usertoken/issue",
+      method: :post,
+      headers: headers,
+      body: JSON.dump({"Username": "#{staff_username}", "Password": "#{staff_password}"})
+    ).run
+    parse(request.response_body)[:AccessToken]
   end
 end

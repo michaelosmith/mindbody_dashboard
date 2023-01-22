@@ -5,12 +5,20 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_tag "https://js.script.com/v3/" %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="overflow-hidden font-sans antialiased bg-gray-200">
+    <header>
+      <%= render "shared/flash" %>
+      <%= render "shared/nav" %>
+    </header>
+    <div class="py-8 px-36">
+      <%= yield %>
+      </div>
   </body>
 </html>

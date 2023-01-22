@@ -1,7 +1,31 @@
-<p>Welcome! Please signin </p>
+<%= welcome_message %>
 
-<%= current_user.email %><br>
-<%= current_user.id %><br>
+<p>Email: <%= current_user.email %><br>
+User Id: <%= current_user.id %></p>
+<p>Reuired fields<br>
+<%= required_fields %>
+
+<p class="inline-flex items-center px-4 py-2 text-gray-700 bg-white border border-gray-800 rounded">New Client</p>
+<%# <%= add_client %>
+
+<%# <p>Services</p>
+<%= get_services %>
+<% if user_signed_in? %>
+  <%= link_to "User Dashboard", current_user, class: 'inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' %>
+<% end %>
+
+<%# <p>Cart</p>
+<%= client_cart %>
+<% if user_signed_in? && !current_user.active_stripe_connect_account? %>
+  <%= button_to "Connect Stripe", connect_onboard_user_path, class: 'inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' %>
+<% elsif user_signed_in? && current_user.active_stripe_connect_account? %>
+  <p>✅ Aleady Connected to Stripe 💪</p>
+  <%= button_to "Stripe Dashboard", stripe_express_dashboard_link, class: 'inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' %>
+  <%= link_to "New Member", new_user_member_path(current_user), class: 'inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' %>
+<% end %>  
+
+<p>Custom payment Methods</p>
+<%= get_custom_payment_methods %>
 
 <h2>Token</h2>
 <% if valide_user_token? %>
@@ -10,5 +34,3 @@
 <% else %>
   <%= link_to "Add your auth token", new_token_path %><br><br>
 <% end %>
-
-<%= button_to "logout", destroy_user_session_path, method: :delete %>

@@ -1,0 +1,22 @@
+<h1>New Lead</h1>
+
+<%= debug @trial %>
+
+<%= form_with(model: [@user, @member]) do |f| %>
+  <%= f.label :first_name %>
+  <%= f.text_field :first_name, autofocus: true %>
+
+  <%= f.label :last_name %>
+  <%= f.text_field :last_name %>
+
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+
+  <%= f.label :trials %>
+  <%= f.select(:trial_id, @trials.map { |t| [t.name, t.id]}) %>
+
+  <%= f.hidden_field :stripe_connect_account_id, :value => @user.stripe_account_id %>
+
+  <%= f.submit %>
+
+<% end %>

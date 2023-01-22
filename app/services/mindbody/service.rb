@@ -1,14 +1,5 @@
 module Mindbody
   class Service < Base
-    def initialize(api_key, site_id, app_name)
-      @base_url = 'https://api.mindbodyonline.com/public/v6'
-      @headers  = { 
-        'Api-Key': api_key
-        'SiteId': site_id
-        'User-Agent': app_name
-      }
-      @request_pool = Typhoeus::Hydra.hydra
-    end
 
     def get_all_clients
       page_size = 200
@@ -38,6 +29,15 @@ module Mindbody
         parsed = parse(request.response.body)[:Clients]
         parsed.each do |client|
           clients << client unless client.empty?
+          member = Member.create(#mindbody_id: client[:Id],
+                              first_name: client[:FirstName],
+                              last_name: client[:LastName],
+                              email: client[:Email],
+                              gender: client[:Gender],
+                              birth_date: client[:BirthDate],
+                              profile_created_date: client[:CreationDate],
+                              profile_last_modified_date: client[:LastModifiedDateTime]
+                             )
         end
         clients
       end
@@ -52,11 +52,78 @@ module Mindbody
       parse(request.response_body)[:Clients]
     end
 
+    def add_client(first_name, last_name, email, dob)
+      request = Typhoeus::Request.new(
+        "#{base_url}/client/addclient",
+        method: :post,
+        headers: headers,
+        body: JSON.dump({"FirstName": first_name, "LastName": last_name, "Email": email, "BirthDate": dob, "Test": false})
+      ).run
+      # p request.response_body
+      parse(request.response_body)[:Client]
+      debugger
+    end
 
-    private
+    def get_required_client_fields
+      get_request("/client/requiredclientfields", :RequiredClientFields)
+    end
+
+    def get_services
+      get_request("/sale/services", :Services)
+    end
+
+    def get_custom_payment_methods
+      get_request("/sale/custompaymentmethods", :PaymentMethods)
+    end
+
+    def purchase_cart(client_id, service_id, amount = 0)
+      request = Typhoeus::Request.new(
+        "#{base_url}/sale/checkoutshoppingcart",
+        method: :post,
+        headers: headers,
+        body: JSON.dump({
+          "ClientID": client_id,
+          "Test": false,
+          "Items": [
+            {
+              "Item": {
+                "Type": "Service",
+                "Metadata": {
+                  "Id": service_id
+                }
+              },
+              "Quantity": 1
+            }
+          ],
+          "Payments": [
+            {
+              "Type": "Custom",
+              "Metadata": {
+                "Amount": amount,
+                "Id": 25
+              }
+            }
+          ]
+        })
+      ).run
+      p request.response_body
+      parse(request.response_body)[:ShoppingCart]
+    end
+
+
+  private
 
     attr_reader :base_url, :headers, :request_pool
 
+    def get_request(endpoint, response_key)
+      request = Typhoeus::Request.new(
+        "#{base_url}#{endpoint}",
+        headers: headers
+      ).run
+      update_user_token_last_used(request.response_code)
+      parse(request.response_body)[response_key]
+    end
+    
     def rate_limited?(response)
       response.code == 429
     end

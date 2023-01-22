@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @trial.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @trial.description %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @trial.price %>
+</p>
+
+<p>
+  <strong>Image:</strong>
+  <%= @trial.image %>
+</p>
+
+<%= link_to 'Edit', edit_trial_path(@trial) %> |
+<%= link_to 'Back', trials_path %>

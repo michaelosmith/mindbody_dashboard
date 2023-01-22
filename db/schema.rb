@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_24_054325) do
+ActiveRecord::Schema.define(version: 2022_07_03_035242) do
 
   create_table "members", force: :cascade do |t|
     t.integer "mindbody_id"
@@ -24,6 +24,21 @@ ActiveRecord::Schema.define(version: 2022_04_24_054325) do
     t.string "profile_hash"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id"
+    t.integer "trial_id"
+    t.index ["trial_id"], name: "index_members_on_trial_id"
+    t.index ["user_id"], name: "index_members_on_user_id"
+  end
+
+  create_table "trials", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "price"
+    t.string "image"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_trials_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -43,8 +58,15 @@ ActiveRecord::Schema.define(version: 2022_04_24_054325) do
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
     t.datetime "token_last_used_at"
+    t.string "stripe_account_id"
+    t.boolean "stripe_account_active", default: false
+    t.string "slug", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["slug"], name: "index_users_on_slug", unique: true
   end
 
+  add_foreign_key "members", "trials"
+  add_foreign_key "members", "users"
+  add_foreign_key "trials", "users"
 end

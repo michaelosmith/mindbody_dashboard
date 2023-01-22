@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Trials</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Image</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @trials.each do |trial| %>
+      <tr>
+        <td><%= trial.name %></td>
+        <td><%= trial.description %></td>
+        <td><%= trial.price %></td>
+        <td><%= trial.image %></td>
+        <td><%= link_to 'Show', trial %></td>
+        <td><%= link_to 'Edit', edit_trial_path(trial) %></td>
+        <td><%= link_to 'Destroy', trial, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Trial', new_user_trial_path %>
