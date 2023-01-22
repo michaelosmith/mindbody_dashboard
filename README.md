@@ -1,24 +1,6 @@
-# README
+# App that connects to Mindbody API and creates a Stripe account
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## this app is development only and should not be used
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+This rails app will connect to Mindbody API and generate the necessary auth token keys
+It will also connect to Stripe and setup a dashboard for a merchant to collect payments through.
